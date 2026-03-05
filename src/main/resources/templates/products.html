@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Витрина</title>
+</head>
+<body>
+
+<div style="display:flex; gap: 16px; justify-content: space-between; align-items:center;">
+    <h1>Витрина</h1>
+    <div>
+        <a href="/cart">Корзина</a> |
+        <a href="/orders">Заказы</a>
+    </div>
+</div>
+
+<hr/>
+
+<div th:if="${#lists.isEmpty(products)}">
+    <p>Товаров пока нет.</p>
+</div>
+
+<ul th:if="${!#lists.isEmpty(products)}">
+    <li th:each="p : ${products}" style="margin-bottom: 14px;">
+        <div>
+            <b th:text="${p.name}">Название</b>
+            — <span th:text="${p.price}">0.00</span>
+        </div>
+        <div th:text="${p.description}">Описание</div>
+        <div th:if="${p.imageUrl != null}">
+            <img th:src="${p.imageUrl}" alt="img" width="120"/>
+        </div>
+
+        <div style="margin-top: 6px;">
+            <a th:href="@{'/products/' + ${p.id}}">Открыть карточку</a>
+        </div>
+    </li>
+</ul>
+
+<p><a href="/">На главную</a></p>
+
+</body>
+</html>
