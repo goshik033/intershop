@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.name}">Товар</title>
+</head>
+<body>
+
+<header style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+    <a href="/products">← Назад к витрине</a>
+    <nav>
+        <a href="/cart">Корзина</a> |
+        <a href="/orders">Заказы</a>
+    </nav>
+</header>
+
+<hr/>
+
+<h1 th:text="${product.name}">Название</h1>
+
+<p>
+    <b>Цена:</b> <span th:text="${product.price}">0.00</span>
+</p>
+
+<div th:if="${product.imageUrl != null and !#strings.isEmpty(product.imageUrl)}" style="margin:12px 0;">
+    <img th:src="${product.imageUrl}" alt="Изображение товара" style="max-width:320px; height:auto;">
+</div>
+
+<h3>Описание</h3>
+<p th:text="${product.description}">Описание</p>
+
+<hr/>
+
+<p>
+    <a th:href="@{'/products/' + ${product.id} + '/edit'}">Редактировать</a>
+</p>
+
+<form th:action="@{'/products/' + ${product.id} + '/delete'}" method="post"
+      onsubmit="return confirm('Удалить товар?');">
+    <button type="submit">Удалить товар</button>
+</form>
+
+<hr/>
+
+<button type="button" disabled>Добавить в корзину (сделаем позже)</button>
+
+</body>
+</html>
