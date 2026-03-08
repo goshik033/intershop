@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать товар</title>
+</head>
+<body>
+
+<header style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+    <a th:href="@{'/products/' + ${productId}}">← Назад к товару</a>
+    <nav>
+        <a href="/cart">Корзина</a> |
+        <a href="/orders">Заказы</a>
+    </nav>
+</header>
+
+<hr/>
+
+<h1>Редактировать товар</h1>
+
+<form th:action="@{'/products/' + ${productId}}" th:object="${form}" method="post" style="max-width:640px;">
+    <div style="margin-bottom:12px;">
+        <label>Название *</label><br/>
+        <input type="text" th:field="*{name}" style="width:100%; padding:8px;"/>
+        <div th:if="${#fields.hasErrors('name')}" style="color:#b00020;">
+            <span th:errors="*{name}">Ошибка</span>
+        </div>
+    </div>
+
+    <div style="margin-bottom:12px;">
+        <label>Описание *</label><br/>
+        <textarea th:field="*{description}" rows="6" style="width:100%; padding:8px;"></textarea>
+        <div th:if="${#fields.hasErrors('description')}" style="color:#b00020;">
+            <span th:errors="*{description}">Ошибка</span>
+        </div>
+    </div>
+
+    <div style="margin-bottom:12px;">
+        <label>Цена *</label><br/>
+        <input type="number" step="0.01" min="0" th:field="*{price}" style="width:100%; padding:8px;"/>
+        <div th:if="${#fields.hasErrors('price')}" style="color:#b00020;">
+            <span th:errors="*{price}">Ошибка</span>
+        </div>
+    </div>
+
+    <div style="margin-bottom:12px;">
+        <label>URL картинки</label><br/>
+        <input type="text" th:field="*{imageUrl}" style="width:100%; padding:8px;"/>
+        <div th:if="${#fields.hasErrors('imageUrl')}" style="color:#b00020;">
+            <span th:errors="*{imageUrl}">Ошибка</span>
+        </div>
+    </div>
+
+    <div style="display:flex; gap:12px;">
+        <button type="submit">Сохранить</button>
+        <a th:href="@{'/products/' + ${productId}}">Отмена</a>
+    </div>
+</form>
+
+<hr/>
+
+<form th:action="@{'/products/' + ${productId} + '/delete'}" method="post"
+      onsubmit="return confirm('Удалить товар?');">
+    <button type="submit">Удалить товар</button>
+</form>
+
+</body>
+</html>
