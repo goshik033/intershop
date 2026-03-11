@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+</head>
+<body>
+
+<header style="display:flex; justify-content:space-between; align-items:center;">
+    <h1 style="margin:0;">Вход</h1>
+    <nav>
+        <a href="/products">В магазин</a> |
+        <a href="/register">Регистрация</a>
+    </nav>
+</header>
+
+<hr/>
+
+<form th:action="@{/login}" th:object="${form}" method="post" style="max-width:420px;">
+    <div style="margin-bottom:12px;">
+        <label>Email</label><br/>
+        <input type="email" th:field="*{email}" style="width:100%; padding:8px;">
+        <div th:if="${#fields.hasErrors('email')}" style="color:#b00020;">
+            <span th:errors="*{email}"></span>
+        </div>
+    </div>
+
+    <div style="margin-bottom:12px;">
+        <label>Пароль</label><br/>
+        <input type="password" th:field="*{password}" style="width:100%; padding:8px;">
+        <div th:if="${#fields.hasErrors('password')}" style="color:#b00020;">
+            <span th:errors="*{password}"></span>
+        </div>
+    </div>
+
+    <button type="submit">Войти</button>
+</form>
+
+</body>
+</html>
