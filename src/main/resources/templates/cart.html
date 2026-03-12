@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+</head>
+<body>
+
+<header style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+    <h1 style="margin:0;">Корзина</h1>
+    <nav>
+        <a href="/products">Витрина</a> |
+        <a href="/orders">Заказы</a>
+        <form th:action="@{/logout}" method="post" style="display:inline; margin-left:12px;">
+            <button type="submit">Выйти</button>
+        </form>
+    </nav>
+</header>
+
+<hr/>
+
+<div th:if="${items == null or #lists.isEmpty(items)}">
+    <p>Корзина пустая.</p>
+    <p><a href="/products">Перейти к товарам</a></p>
+</div>
+
+<div th:if="${items != null and !#lists.isEmpty(items)}">
+
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+        <tr>
+            <th>Товар</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Сумма</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="ci : ${items}">
+            <td>
+                <div>
+                    <a th:href="@{'/products/' + ${ci.product.id}}"
+                       th:text="${ci.product.name}">Название</a>
+                </div>
+
+                <div th:if="${ci.product.imageUrl != null and !#strings.isEmpty(ci.product.imageUrl)}"
+                     style="margin-top:6px;">
+                    <img th:src="${ci.product.imageUrl}" alt="img" width="80">
+                </div>
+            </td>
+
+            <td th:text="${ci.product.price}">0.00</td>
+
+            <td style="white-space:nowrap;">
+                <!-- минус -->
+                <form th:action="@{'/cart/qty/' + ${ci.product.id}}" method="post" style="display:inline;">
+                    <input type="hidden" name="qty" th:value="${ci.quantity - 1}">
+                    <button type="submit">−</button>
+                </form>
+
+                <span style="display:inline-block; min-width:28px; text-align:center;"
+                      th:text="${ci.quantity}">1</span>
+
+                <!-- плюс -->
+                <form th:action="@{'/cart/qty/' + ${ci.product.id}}" method="post" style="display:inline;">
+                    <input type="hidden" name="qty" th:value="${ci.quantity + 1}">
+                    <button type="submit">+</button>
+                </form>
+            </td>
+
+            <td th:text="${ci.product.price * ci.quantity}">0.00</td>
+
+            <td>
+                <form th:action="@{'/cart/remove/' + ${ci.product.id}}" method="post"
+                      onsubmit="return confirm('Удалить товар из корзины?');">
+                    <button type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p style="margin-top:12px;">
+        <b>Итого:</b> <span th:text="${total}">0.00</span>
+    </p>
+
+    <form th:action="@{/cart/clear}" method="post" onsubmit="return confirm('Очистить корзину?');">
+        <button type="submit">Очистить корзину</button>
+    </form>
+
+    <p style="margin-top:12px;">
+        <button type="button" disabled>Оформить заказ (следующий шаг)</button>
+    </p>
+</div>
+
+</body>
+</html>

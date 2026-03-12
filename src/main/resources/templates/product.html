@@ -39,10 +39,12 @@
       onsubmit="return confirm('Удалить товар?');">
     <button type="submit">Удалить товар</button>
 </form>
+<form th:action="@{'/cart/add/' + ${product.id}}" method="post">
+    <button type="submit">В корзину</button>
+</form>
 
 <hr/>
 
-<button type="button" disabled>Добавить в корзину (сделаем позже)</button>
 
 </body>
 </html>

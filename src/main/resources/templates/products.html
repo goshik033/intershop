@@ -96,7 +96,11 @@
                 <a th:href="@{'/products/' + ${p.id}}">Открыть карточку</a>
                 |
                 <a th:href="@{'/products/' + ${p.id} + '/edit'}">Редактировать</a>
+                <form th:action="@{'/cart/add/' + ${p.id}}" method="post" style="display:inline; margin-left:8px;">
+                    <button type="submit">В корзину</button>
+                </form>
             </div>
+
         </li>
     </ul>
 
