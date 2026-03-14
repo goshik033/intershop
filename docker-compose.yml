@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: intershop
+      POSTGRES_USER: intershop
+      POSTGRES_PASSWORD: intershop
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U intershop -d intershop"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/intershop
+      SPRING_DATASOURCE_USERNAME: intershop
+      SPRING_DATASOURCE_PASSWORD: intershop
+    depends_on:
+      db:
+        condition: service_healthy
