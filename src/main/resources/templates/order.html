@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказ</title>
+</head>
+<body>
+
+<header style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+    <a href="/orders">← К заказам</a>
+    <nav>
+        <a href="/products">Витрина</a> |
+        <a href="/cart">Корзина</a>
+    </nav>
+</header>
+
+<hr/>
+
+<h1>
+    Заказ #<span th:text="${order.id}">0</span>
+</h1>
+
+<p>
+    <b>Дата:</b> <span th:text="${#temporals.format(order.createdAt, 'yyyy-MM-dd HH:mm')}">date</span>
+</p>
+
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+    <tr>
+        <th>Товар</th>
+        <th>Цена</th>
+        <th>Кол-во</th>
+        <th>Сумма</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="i : ${items}">
+        <td th:text="${i.product.name}">name</td>
+        <td th:text="${i.priceAtPurchase}">0.00</td>
+        <td th:text="${i.quantity}">1</td>
+        <td th:text="${i.priceAtPurchase * i.quantity}">0.00</td>
+    </tr>
+    </tbody>
+</table>
+
+<p style="margin-top:12px;">
+    <b>Итого:</b> <span th:text="${total}">0.00</span>
+</p>
+
+</body>
+</html>
